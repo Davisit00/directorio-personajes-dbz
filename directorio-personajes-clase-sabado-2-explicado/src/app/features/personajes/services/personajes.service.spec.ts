@@ -20,7 +20,7 @@ describe('PersonajesService', () => {
   afterEach(() => http.verify());
 
   it('sin filtros pide la página y el límite', () => {
-    servicio.buscar({ pagina: 2, nombre: '', raza: 'todas' }).subscribe();
+    servicio.buscar({ pagina: 2, nombre: '', raza: 'todas', genero: 'todos' }).subscribe();
     // [E78] expectOne atrapa la petición, flush le responde con datos falsos
     const req = http.expectOne((r) => r.url.endsWith('/characters'));
     expect(req.request.params.get('page')).toBe('2');
@@ -31,10 +31,11 @@ describe('PersonajesService', () => {
 
   it('con filtro manda name y race, y convierte el arreglo en una página', () => {
     let total = -1;
-    servicio.buscar({ pagina: 1, nombre: 'goku', raza: 'Saiyan' }).subscribe((r) => (total = r.meta.totalItems));
+    servicio.buscar({ pagina: 1, nombre: 'goku', raza: 'Saiyan', genero: 'todos' }).subscribe((r) => (total = r.meta.totalItems));
     const req = http.expectOne((r) => r.url.endsWith('/characters'));
     expect(req.request.params.get('name')).toBe('goku');
     expect(req.request.params.get('race')).toBe('Saiyan');
+    expect(req.request.params.has('gender')).toBe(false);
     expect(req.request.params.has('page')).toBe(false);
     req.flush([{ id: 1, name: 'Goku' }]);
     expect(total).toBe(1);
@@ -42,10 +43,18 @@ describe('PersonajesService', () => {
 
   it('un 404 se convierte en cero resultados', () => {
     let total = -1;
-    servicio.buscar({ pagina: 1, nombre: 'zzz', raza: 'todas' }).subscribe((r) => (total = r.meta.totalItems));
+    servicio.buscar({ pagina: 1, nombre: 'zzz', raza: 'todas', genero: 'todos' }).subscribe((r) => (total = r.meta.totalItems));
     // [E79] flush con status 404 simula el error
     http.expectOne(() => true).flush({ message: 'Not found' }, { status: 404, statusText: 'Not Found' });
     expect(total).toBe(0);
+  });
+
+  it('con filtro de género manda gender', () => {
+    servicio.buscar({ pagina: 1, nombre: '', raza: 'todas', genero: 'Female' }).subscribe();
+    const req = http.expectOne((r) => r.url.endsWith('/characters'));
+    expect(req.request.params.get('gender')).toBe('Female');
+    expect(req.request.params.has('page')).toBe(false);
+    req.flush([]);
   });
 
   it('varios() hace una petición por id', () => {

@@ -23,9 +23,10 @@ export class ListaPersonajes {
   protected readonly razas = RAZAS;
 
   // Estado de la UI (signals)
-  // [E48] Estado de la UI: texto, raza y página
+  // [E48] Estado de la UI: texto, raza, género y página
   protected readonly texto = signal('');
   protected readonly raza = signal('todas');
+  protected readonly genero = signal('todos');
   protected readonly pagina = signal(1);
 
   // Un solo objeto con todo lo que define la búsqueda
@@ -33,6 +34,7 @@ export class ListaPersonajes {
   private readonly filtro = computed(() => ({
     nombre: this.texto().trim(),
     raza: this.raza(),
+    genero: this.genero(),
     pagina: this.pagina(),
   }));
 
@@ -60,6 +62,11 @@ export class ListaPersonajes {
 
   protected alCambiarRaza(raza: string) {
     this.raza.set(raza);
+    this.pagina.set(1);
+  }
+
+  protected alCambiarGenero(genero: string) {
+    this.genero.set(genero);
     this.pagina.set(1);
   }
 }

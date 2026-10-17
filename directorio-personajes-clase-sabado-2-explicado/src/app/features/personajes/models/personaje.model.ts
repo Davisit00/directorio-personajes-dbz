@@ -42,6 +42,7 @@ export interface Filtro {
   pagina: number;
   nombre: string;
   raza: string;
+  genero: string;
 }
 
 // Razas que ofrece el filtro del listado

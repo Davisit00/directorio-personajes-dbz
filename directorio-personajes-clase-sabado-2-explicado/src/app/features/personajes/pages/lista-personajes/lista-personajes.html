@@ -1,10 +1,12 @@
-<!-- [E53] Contenedor -> presentación: bajan [texto] y [raza], suben (textoCambio) y (razaCambio) -->
+<!-- [E53] Contenedor -> presentación: bajan filtros, suben sus eventos de cambio -->
 <app-filtros-personajes
   [texto]="texto()"
   [raza]="raza()"
+  [genero]="genero()"
   [razas]="razas"
   (textoCambio)="alCambiarTexto($event)"
   (razaCambio)="alCambiarRaza($event)"
+  (generoCambio)="alCambiarGenero($event)"
 />
 
 <!-- [E57] Cargando / resultados / @empty -->

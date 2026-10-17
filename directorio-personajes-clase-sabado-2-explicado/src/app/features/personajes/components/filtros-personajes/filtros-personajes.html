@@ -20,4 +20,14 @@
       <option [value]="r">{{ r }}</option>
     }
   </select>
+  <select
+    [value]="genero()"
+    (change)="alElegirGenero($event)"
+    class="rounded-lg border border-stone-300 bg-white px-3 py-2 outline-none focus:border-ki-500 focus:ring-2 focus:ring-ki-500/30"
+  >
+    <option value="todos">Todos los géneros</option>
+    <option value="Male">Masculino</option>
+    <option value="Female">Femenino</option>
+    <option value="Unknown">Desconocido</option>
+  </select>
 </div>

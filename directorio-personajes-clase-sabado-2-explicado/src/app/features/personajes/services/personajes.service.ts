@@ -16,16 +16,17 @@ export class PersonajesService {
   private readonly porPagina = 12;
 
   // Sin filtros la API pagina (?page=2&limit=12).
-  // Con filtros (?name=goku o ?race=Saiyan) devuelve un arreglo simple, sin paginación.
+  // Con filtros (?name=goku, ?race=Saiyan o ?gender=Male) devuelve un arreglo simple, sin paginación.
   // [E61] buscar(): con filtro manda name/race, sin filtro manda page/limit
   buscar(filtro: Filtro): Observable<Pagina<Personaje>> {
-    const hayFiltro = filtro.nombre !== '' || filtro.raza !== 'todas';
+    const hayFiltro = filtro.nombre !== '' || filtro.raza !== 'todas' || filtro.genero !== 'todos';
 
     // [E62] HttpParams es inmutable: set() devuelve uno nuevo -> params = params.set()
     let params = new HttpParams();
     if (hayFiltro) {
       if (filtro.nombre) params = params.set('name', filtro.nombre);
       if (filtro.raza !== 'todas') params = params.set('race', filtro.raza);
+      if (filtro.genero !== 'todos') params = params.set('gender', filtro.genero);
     } else {
       params = params.set('page', filtro.pagina).set('limit', this.porPagina);
     }
