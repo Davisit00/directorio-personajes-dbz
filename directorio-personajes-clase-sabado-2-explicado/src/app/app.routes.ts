@@ -10,6 +10,10 @@ export const routes: Routes = [
     loadChildren: () => import('./features/personajes/personajes.routes').then((m) => m.PERSONAJES_ROUTES),
   },
   {
+    path: 'planetas',
+    loadChildren: () => import('./features/planetas/planetas.routes').then((m) => m.PLANETAS_ROUTES),
+  },
+  {
     path: 'favoritos',
     loadChildren: () => import('./features/favoritos/favoritos.routes').then((m) => m.FAVORITOS_ROUTES),
   },

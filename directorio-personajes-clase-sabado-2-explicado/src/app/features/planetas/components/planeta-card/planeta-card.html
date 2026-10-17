@@ -1,0 +1,21 @@
+@let p = planeta();
+
+<article class="flex flex-col overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm">
+  <div class="flex justify-center bg-linear-to-b from-capsula-100 to-capsula-50 p-4">
+    @if (imagenFallo()) {
+      <svg lucideImageOff class="my-12 size-12 text-stone-400"></svg>
+    } @else {
+      <img [src]="p.image" [alt]="p.name" loading="lazy" (error)="imagenFallo.set(true)" class="h-auto w-full object-contain" />
+    }
+  </div>
+
+  <div class="flex flex-1 flex-col gap-2 p-4">
+    <div class="flex items-start justify-between gap-2">
+      <h2 class="text-lg font-semibold leading-tight">{{ p.name }}</h2>
+      @if (p.isDestroyed) {
+        <span class="shrink-0 rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">Destruido</span>
+      }
+    </div>
+    <p class="text-sm text-stone-600">{{ p.description }}</p>
+  </div>
+</article>
